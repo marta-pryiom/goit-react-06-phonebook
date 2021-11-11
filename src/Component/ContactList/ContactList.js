@@ -11,6 +11,7 @@ function ContactList({ contacts, onDeleteContact }) {
     console.log(contacts);
     // function ContactList() {
     // const contacts = useSelector();
+
     return (
         <ul className={s.ContactList}>
             {contacts.map(({ name, number, id }) => (
@@ -26,24 +27,27 @@ function ContactList({ contacts, onDeleteContact }) {
     );
 }
 
-// ContactList.propTypes = {
-//     contacts: PropTypes.arrayOf(
-//         PropTypes.shape({
-//             name: PropTypes.string.isRequired,
-//             number: PropTypes.string.isRequired,
-//             id: PropTypes.string.isRequired,
-//         }),
-//     ),
-
-//     onDeleteContact: PropTypes.func.isRequired,
-// };
+const getVisibleContact = (allItems, filter) => {
+    const normalizedFilter = filter.toLowerCase();
+    return allItems.filter(({ name }) =>
+        name.toLowerCase().includes(normalizedFilter),
+    );
+};
 const mapStateToprops = state => ({
-    contacts: state.items,
+    contacts: getVisibleContact(state.items, state.filter),
 });
 const mapDispatchToProps = dispatch => ({
     onDeleteContact: id => dispatch(deleteContacts(id)),
-
-    // onDeleteContact: id => dispatch(actions.deleteContacts(id)),
 });
+ContactList.propTypes = {
+    contacts: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            number: PropTypes.string.isRequired,
+            id: PropTypes.string.isRequired,
+        }),
+    ),
+
+    onDeleteContact: PropTypes.func.isRequired,
+};
 export default connect(mapStateToprops, mapDispatchToProps)(ContactList);
-// export default ContactList;

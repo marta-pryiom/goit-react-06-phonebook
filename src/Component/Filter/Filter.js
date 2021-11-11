@@ -20,25 +20,15 @@ function Filter({ value, onChange }) {
     );
 }
 
-// Filter.propTypes = {
-//     onChange: PropTypes.func.isRequired,
-//     filter: PropTypes.string.isRequired,
-// };
-const getVisibleContact = (allItems, filter) => {
-    console.log(allItems);
-    console.log(filter);
-    // const { filter, items } = state;
-    const normalizedFilter = filter.toLowerCase();
-    return allItems.filter(({ name }) =>
-        name.toLowerCase().includes(normalizedFilter),
-    );
-};
 const mapStateToProps = state => ({
-    value: getVisibleContact(state.items, state.filter),
-    // value: state.filter,
+    value: state.filter,
 });
 const mapDispatchToProps = dispatch => ({
     onChange: e => dispatch(filteredContacts(e.currentTarget.value)),
 });
+Filter.propTypes = {
+    onChange: PropTypes.func.isRequired,
+    filter: PropTypes.string.isRequired,
+};
+
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);
-// export default Filter;
