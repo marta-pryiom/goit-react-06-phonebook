@@ -1,6 +1,9 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
-import { v4 as uuidv4 } from 'uuid';
+import { submit } from '../../redux/contacts/actions';
+
+import { connect } from 'react-redux';
+// import PropTypes from 'prop-types';
+// import { v4 as uuidv4 } from 'uuid';
 import s from './ContactForm.module.css';
 
 function ContactForm({ onSubmit }) {
@@ -9,12 +12,12 @@ function ContactForm({ onSubmit }) {
 
     const handleSubmit = e => {
         e.preventDefault();
-        const contact = {
-            id: uuidv4(),
-            name,
-            number,
-        };
-        onSubmit(contact);
+        // const contact = {
+        //     // id: uuidv4(),
+        //     name,
+        //     number,
+        // };
+        onSubmit(name, number);
         reset();
     };
 
@@ -78,14 +81,18 @@ function ContactForm({ onSubmit }) {
     );
 }
 
-ContactForm.propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func,
-    handleChange: PropTypes.func,
-    handleAgreeChange: PropTypes.func,
-    nameId: PropTypes.number,
-    numberId: PropTypes.number,
-    agreeId: PropTypes.number,
-};
+// ContactForm.propTypes = {
+//     onSubmit: PropTypes.func.isRequired,
+//     handleSubmit: PropTypes.func,
+//     handleChange: PropTypes.func,
+//     handleAgreeChange: PropTypes.func,
+//     nameId: PropTypes.number,
+//     numberId: PropTypes.number,
+//     agreeId: PropTypes.number,
+// };
 
-export default ContactForm;
+const mapDispatchToProps = dispatch => ({
+    onSubmit: (name, number) => dispatch(submit(name, number)),
+});
+export default connect(null, mapDispatchToProps)(ContactForm);
+// export default ContactForm;
